@@ -17,7 +17,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface CardProps {
-  character: Character;
+  character?: Character;
   size?: "md" | "sm";
 }
 
@@ -32,6 +32,10 @@ export const getStatusColor = (status: CharacterStatus) => {
   }
 };
 const CharacterCard: React.FC<CardProps> = ({ character, size = "md" }) => {
+  const bgColor = useColorModeValue("gray.100", "gray.900");
+  if (!character) {
+    return null;
+  }
   const statusColor = getStatusColor(character.status);
   return (
     <Card size={size} minWidth={"fit-content"}>
@@ -40,7 +44,7 @@ const CharacterCard: React.FC<CardProps> = ({ character, size = "md" }) => {
           w={"100%"}
           h={size === "md" ? 300 : 150}
           position="relative"
-          bgColor={useColorModeValue("gray.100", "gray.900")}
+          bgColor={bgColor}
         >
           <Image
             // layout="fill"

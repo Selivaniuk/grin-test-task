@@ -19,19 +19,19 @@ import Image from "next/image";
 import ViewedBadge from "@/components/ViewedBadge";
 
 interface Props {
-  episode: Episode;
+  episode?: Episode;
   charactersImages?: CharactersImages;
   size?: "md" | "sm";
 }
 const EpisodeCard: FC<Props> = ({ episode, charactersImages, size = "md" }) => {
+  const bgColor = useColorModeValue("gray.100", "gray.900");
+  if (!episode) {
+    return null;
+  }
   return (
     <Card size={size} minWidth={"fit-content"}>
       <CardBody>
-        <Flex
-          w={"100%"}
-          h={size === "md" ? 200 : 150}
-          bgColor={useColorModeValue("gray.100", "gray.900")}
-        >
+        <Flex w={"100%"} h={size === "md" ? 200 : 150} bgColor={bgColor}>
           <Image
             style={{
               objectFit: "contain",

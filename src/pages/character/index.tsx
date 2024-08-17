@@ -2,25 +2,30 @@ import Head from "next/head";
 import {
   CharacterFilter,
   CharacterGender,
-  characterGenders,
   Characters,
   CharacterStatus,
-  characterStatuses,
   getCharacters,
 } from "../api/character";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { Flex, Grid, Spinner } from "@chakra-ui/react";
+import { Flex, Grid, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import Pagination from "@/components/pagination";
 import CharacterFilters from "./components/CharacterFilters";
 import CharacterCard from "./components/CharacterCard";
-import { generateQueryParams } from "@/utils";
+import { generateQueryParams, validateQueryParams } from "@/utils";
+import {
+  characterGenders,
+  characterSpecies,
+  characterStatuses,
+} from "@/utils/filterValues";
+import CharacterCardSkeleton from "./components/CharacterCardSkeleton";
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const CharacterPage = ({ initialCharacters, initialFilters }: Props) => {
-  //   const router = useRouter();
+const CharactersPage = ({ initialCharacters, initialFilters }: Props) => {
+  const toast = useToast();
   const [characters, setCharacters] = useState<Characters>(initialCharacters);
+
   const [charactersFilter, setCharactersFilter] =
     useState<CharacterFilter>(initialFilters);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -38,15 +43,20 @@ const CharacterPage = ({ initialCharacters, initialFilters }: Props) => {
       //     undefined,
       //     { shallow: true }
       //   );
-
-      const newUrl = `/character${generateQueryParams(newFilter)}`;
+      const newUrl = window.location.pathname + generateQueryParams(newFilter);
       window.history.replaceState(
         { ...window.history.state, as: newUrl, url: newUrl },
         "",
         newUrl
       );
-    } catch (error) {
-      console.log("Error: getCharacters", error);
+    } catch (e) {
+      const error = e as Error;
+      toast({
+        title: "Error",
+        description: error.message,
+        status: "error",
+        isClosable: true,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -55,6 +65,8 @@ const CharacterPage = ({ initialCharacters, initialFilters }: Props) => {
   const handleChangeFilter = (value: any, key: keyof CharacterFilter) => {
     if (value === charactersFilter[key]) return;
     const newFilter = { ...charactersFilter, [key]: value };
+    if (key !== "page") newFilter.page = 1;
+
     updateCharacters(newFilter);
   };
 
@@ -75,24 +87,24 @@ const CharacterPage = ({ initialCharacters, initialFilters }: Props) => {
         pb={4}
       >
         <CharacterFilters
-          initialFilters={initialFilters}
+          filterValue={charactersFilter}
           handleChangeFilter={handleChangeFilter}
         />
 
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <Grid
-            width="100%"
-            paddingX={8}
-            templateColumns="repeat(auto-fit, minmax(300px, 1fr));"
-            gap={6}
-          >
-            {characters.results.map((character) => (
-              <CharacterCard key={character.id} character={character} />
-            ))}
-          </Grid>
-        )}
+        <Grid
+          width="100%"
+          paddingX={8}
+          templateColumns="repeat(auto-fill, minmax(300px, 1fr));"
+          gap={6}
+        >
+          {isLoading
+            ? Array(10)
+                .fill(0)
+                .map((_, i) => <CharacterCardSkeleton key={i} isLoading />)
+            : characters.results.map((character) => (
+                <CharacterCard key={character.id} character={character} />
+              ))}
+        </Grid>
 
         <Pagination
           currentPage={charactersFilter.page ?? 1}
@@ -104,43 +116,43 @@ const CharacterPage = ({ initialCharacters, initialFilters }: Props) => {
   );
 };
 
-export const getServerSideProps = (async ({ query }) => {
-  const { page, gender, status } = query;
+interface PropsType {
+  initialCharacters: Characters;
+  initialFilters: CharacterFilter;
+}
 
-  function validate<T>(
-    value: string[] | string | undefined,
-    validValues: T[]
-  ): T | null {
-    const v = Array.isArray(value) ? value[0] : value;
-    return v && validValues.includes(v as T) ? (v as T) : null;
-  }
+export const getServerSideProps: GetServerSideProps<PropsType> = async ({
+  query,
+}) => {
+  const initialGender = validateQueryParams<CharacterGender>(
+    query?.gender,
+    characterGenders
+  );
+  const initialStatus = validateQueryParams<CharacterStatus>(
+    query?.status,
+    characterStatuses
+  );
+  const initialSpecies = validateQueryParams<string>(
+    query?.species,
+    characterSpecies
+  );
+  const initialPage = isNaN(Number(query?.page)) ? 1 : Number(query?.page);
 
-  const initialGender = validate<CharacterGender>(gender, characterGenders);
-  const initialStatus = validate<CharacterStatus>(status, characterStatuses);
-  const initialPage = isNaN(Number(page)) ? 1 : Number(page);
-
-  const initialCharacters: Characters = await getCharacters({
+  const initialFilters = {
     page: initialPage,
     gender: initialGender,
     status: initialStatus,
-  });
+    species: initialSpecies,
+  };
+
+  const initialCharacters: Characters = await getCharacters(initialFilters);
+
   return {
     props: {
       initialCharacters,
-      initialFilters: {
-        page: initialPage,
-        status: initialStatus,
-        gender: initialGender,
-      },
+      initialFilters,
     },
   };
-}) satisfies GetServerSideProps<{
-  initialCharacters: Characters;
-  initialFilters: {
-    page: number;
-    status: CharacterStatus | null;
-    gender: CharacterGender | null;
-  };
-}>;
+};
 
-export default CharacterPage;
+export default CharactersPage;

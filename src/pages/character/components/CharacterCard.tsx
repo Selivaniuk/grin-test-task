@@ -5,18 +5,21 @@ import {
   Card,
   CardBody,
   CardFooter,
+  Flex,
   Heading,
   HStack,
   Stack,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface CardProps {
   character: Character;
 }
 
-const getStatusColor = (status: CharacterStatus) => {
+export const getStatusColor = (status: CharacterStatus) => {
   switch (status) {
     case "Alive":
       return "green";
@@ -31,12 +34,23 @@ const CharacterCard: React.FC<CardProps> = ({ character }) => {
   return (
     <Card size="sm">
       <CardBody>
-        <Image
-          width={300}
-          height={300}
-          src={character.image}
-          alt={character.name}
-        />
+        <Flex
+          w={"100%"}
+          h={300}
+          bgColor={useColorModeValue("gray.100", "gray.900")}
+        >
+          <Image
+            style={{
+              objectFit: "contain",
+              width: "100%",
+            }}
+            width={300}
+            height={300}
+            src={character.image}
+            alt={character.name}
+          />
+        </Flex>
+
         <Stack mt={4}>
           <Heading size="md">{character.name}</Heading>
           <Badge width="max-content" colorScheme={statusColor}>
@@ -53,7 +67,9 @@ const CharacterCard: React.FC<CardProps> = ({ character }) => {
         </Stack>
       </CardBody>
       <CardFooter>
-        <Button variant="solid">Details</Button>
+        <Link href={`/character/${character.id}`}>
+          <Button variant="solid">Details</Button>
+        </Link>
       </CardFooter>
     </Card>
   );

@@ -1,5 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { fetchData, Info, ResourceBase } from "../index";
+import { BaseFilter, fetchData, Info, ResourceBase } from "../index";
 
 const url = "/character";
 
@@ -22,26 +21,11 @@ export interface Character extends ResourceBase {
   episode: string[];
 }
 
-export interface CharacterFilter {
-  name?: string | null;
-  type?: string | null;
+export interface CharacterFilter extends BaseFilter {
   species?: string | null;
   status?: CharacterStatus | null;
   gender?: CharacterGender | null;
-  page?: number | null;
 }
-
-export const characterStatuses: CharacterStatus[] = [
-  "Alive",
-  "Dead",
-  "unknown",
-];
-export const characterGenders: CharacterGender[] = [
-  "Male",
-  "Female",
-  "Genderless",
-  "unknown",
-];
 
 export type Characters = Info<Character[]>;
 export const getCharacters = async (params?: CharacterFilter) => {
@@ -51,9 +35,9 @@ export const getCharacters = async (params?: CharacterFilter) => {
   return data;
 };
 
-export const getCharactersByIds = async (ids: string[]) => {
-  const data = await fetchData<Character[] | Character>(
-    `${url}/${ids.join(",")}`
+export const getCharacter = async <T extends number | number[]>(id: T) => {
+  const data = await fetchData<T extends number ? Character : Character[]>(
+    `${url}/${id}`
   );
   return data;
 };

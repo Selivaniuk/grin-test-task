@@ -5,6 +5,12 @@ const axiosInstance = axios.create({
   timeout: 5000,
 });
 
+export interface BaseFilter {
+  name?: string | null;
+  type?: string | null;
+  page?: number | null;
+}
+
 export interface ResourceBase {
   id: number;
   name: string;
@@ -30,7 +36,7 @@ export const fetchData = async <T>(
     const response = await axiosInstance<T>(url, options);
     return response.data;
   } catch (error) {
-    console.error("Error retrieving data:", error);
+    // console.error("Error retrieving data:", error);
     throw new Error("Could not get data");
   }
 };

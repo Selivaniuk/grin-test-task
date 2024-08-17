@@ -7,7 +7,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { FC } from "react";
-import SearchInput from "../searchInput";
+import Search from "../search";
 import NextLink from "next/link";
 
 interface LinkI {
@@ -68,8 +68,8 @@ const Header = () => {
         {LINKS.map((link) => (
           <NavLink key={link.href} {...link} />
         ))}
+        <Search />
       </Flex>
-      <SearchInput />
 
       <Button onClick={toggleColorMode}>
         {colorMode === "light" ? <MoonIcon /> : <SunIcon />}

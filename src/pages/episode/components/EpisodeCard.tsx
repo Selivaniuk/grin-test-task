@@ -1,19 +1,22 @@
 import { Episode } from "@/pages/api/episode";
 import {
-  Badge,
   Button,
   Card,
   CardBody,
   CardFooter,
+  Flex,
   Heading,
   HStack,
   Stack,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { FC } from "react";
-import EpisodeCardCharacters, {
-  CharactersImages,
-} from "./EpisodeCardCharacters";
+import { CharactersImages } from "@/utils";
+import CharacterImageList from "@/components/CharactersImages";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import Image from "next/image";
 
 interface Props {
   episode: Episode;
@@ -23,21 +26,35 @@ const EpisodeCard: FC<Props> = ({ episode, charactersImages }) => {
   return (
     <Card size="sm">
       <CardBody>
+        <Flex
+          w={"100%"}
+          h={200}
+          bgColor={useColorModeValue("gray.100", "gray.900")}
+        >
+          <Image
+            style={{
+              objectFit: "contain",
+              width: "100%",
+            }}
+            width={360}
+            height={200}
+            src="/images/noImg.jpg"
+            alt={episode.name}
+          />
+        </Flex>
         <Stack mt={4}>
           <Heading size="md">{episode.name}</Heading>
           <Text>{episode.episode}</Text>
-          <EpisodeCardCharacters
+          <CharacterImageList
             characters={episode.characters}
             charactersImages={charactersImages}
           />
-          <HStack>
-            <Text>Air Date:</Text>
-            <Text>{episode.air_date}</Text>
-          </HStack>
         </Stack>
       </CardBody>
       <CardFooter>
-        <Button variant="solid">Details</Button>
+        <Link href={`/episode/${episode.id}`}>
+          <Button>Details</Button>
+        </Link>
       </CardFooter>
     </Card>
   );

@@ -15,10 +15,10 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
 
       <Box
         as="main"
-        ml={4}
-        mr={4}
+        mx={8}
         mt={4}
-        height="calc(100vh - var(--chakra-sizes-16) - var(--chakra-space-4))"
+        mb={8}
+        height="calc(100vh - var(--chakra-sizes-16) - var(--chakra-space-4) - var(--chakra-space-8))"
       >
         {children}
       </Box>

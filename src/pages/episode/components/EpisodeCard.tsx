@@ -21,23 +21,25 @@ import ViewedBadge from "@/components/ViewedBadge";
 interface Props {
   episode: Episode;
   charactersImages?: CharactersImages;
+  size?: "md" | "sm";
 }
-const EpisodeCard: FC<Props> = ({ episode, charactersImages }) => {
+const EpisodeCard: FC<Props> = ({ episode, charactersImages, size = "md" }) => {
   return (
-    <Card size="sm">
+    <Card size={size} minWidth={"fit-content"}>
       <CardBody>
         <Flex
           w={"100%"}
-          h={200}
+          h={size === "md" ? 200 : 150}
           bgColor={useColorModeValue("gray.100", "gray.900")}
         >
           <Image
             style={{
               objectFit: "contain",
               width: "100%",
+              height: "auto",
             }}
-            width={360}
-            height={200}
+            width={size === "md" ? 360 : 270}
+            height={size === "md" ? 200 : 150}
             src="/images/noImg.jpg"
             alt={episode.name}
           />
@@ -47,12 +49,15 @@ const EpisodeCard: FC<Props> = ({ episode, charactersImages }) => {
             <Heading size="md">{episode.name}</Heading>
             <ViewedBadge page="episode" id={episode.id} />
           </HStack>
-
-          <Text>{episode.episode}</Text>
-          <CharacterImageList
-            characters={episode.characters}
-            charactersImages={charactersImages}
-          />
+          {size === "md" && (
+            <>
+              <Text>{episode.episode}</Text>
+              <CharacterImageList
+                characters={episode.characters}
+                charactersImages={charactersImages}
+              />
+            </>
+          )}
         </Stack>
       </CardBody>
       <CardFooter>

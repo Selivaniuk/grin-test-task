@@ -37,7 +37,7 @@ const CharacterPage = ({ character }: Props) => {
       <Head>
         <title>{character.name}</title>
       </Head>
-      <Flex gap={8}>
+      <Flex gap={8} wrap="wrap-reverse">
         <Flex w={400} h={400} bgColor={bgColor} borderRadius={12}>
           <Image
             style={{

@@ -76,3 +76,17 @@ export const charactersImagesFromCharacters = (
     })
   );
 };
+
+export const randomInt = (min: number, max: number) => {
+  const rand = min + Math.random() * (max + 1 - min);
+  return Math.floor(rand);
+};
+
+export const shuffle = <T>(array: T[]): T[] => {
+  const res = [...array];
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = randomInt(0, i);
+    [res[i], res[j]] = [res[j], res[i]];
+  }
+  return res;
+};

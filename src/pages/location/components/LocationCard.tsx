@@ -20,24 +20,30 @@ import Link from "next/link";
 interface CardProps {
   location: Location;
   charactersImages?: CharactersImages;
+  size?: "md" | "sm";
 }
 
-const LocationCard: React.FC<CardProps> = ({ location, charactersImages }) => {
+const LocationCard: React.FC<CardProps> = ({
+  location,
+  charactersImages,
+  size = "md",
+}) => {
   return (
-    <Card size="sm">
+    <Card size={size} minWidth={"fit-content"}>
       <CardBody>
         <Flex
           w={"100%"}
-          h={200}
+          h={size === "md" ? 200 : 150}
           bgColor={useColorModeValue("gray.100", "gray.900")}
         >
           <Image
             style={{
               objectFit: "contain",
               width: "100%",
+              height: "auto",
             }}
-            width={360}
-            height={200}
+            width={size === "md" ? 360 : 270}
+            height={size === "md" ? 200 : 150}
             src="/images/noImg.jpg"
             alt={location.name}
           />
@@ -47,17 +53,21 @@ const LocationCard: React.FC<CardProps> = ({ location, charactersImages }) => {
             <Heading size="md">{location.name}</Heading>
             <ViewedBadge page="location" id={location.id} />
           </HStack>
-          {location.dimension && (
-            <HStack>
-              <Text>Dimension:</Text>
-              <Text>{location.dimension}</Text>
-            </HStack>
-          )}
-          {location.type && (
-            <HStack>
-              <Text>Type:</Text>
-              <Text>{location.type}</Text>
-            </HStack>
+          {size === "md" && (
+            <>
+              {location.dimension && (
+                <HStack>
+                  <Text>Dimension:</Text>
+                  <Text>{location.dimension}</Text>
+                </HStack>
+              )}
+              {location.type && (
+                <HStack>
+                  <Text>Type:</Text>
+                  <Text>{location.type}</Text>
+                </HStack>
+              )}
+            </>
           )}
 
           <CharacterImageList

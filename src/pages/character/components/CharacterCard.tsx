@@ -18,6 +18,7 @@ import Link from "next/link";
 
 interface CardProps {
   character: Character;
+  size?: "md" | "sm";
 }
 
 export const getStatusColor = (status: CharacterStatus) => {
@@ -30,23 +31,26 @@ export const getStatusColor = (status: CharacterStatus) => {
       return "yellow";
   }
 };
-const CharacterCard: React.FC<CardProps> = ({ character }) => {
+const CharacterCard: React.FC<CardProps> = ({ character, size = "md" }) => {
   const statusColor = getStatusColor(character.status);
   return (
-    <Card size="sm">
+    <Card size={size} minWidth={"fit-content"}>
       <CardBody>
         <Flex
           w={"100%"}
-          h={300}
+          h={size === "md" ? 300 : 150}
+          position="relative"
           bgColor={useColorModeValue("gray.100", "gray.900")}
         >
           <Image
+            // layout="fill"
+            // objectFit="fill"
             style={{
               objectFit: "contain",
               width: "100%",
             }}
-            width={300}
-            height={300}
+            width={size === "md" ? 300 : 150}
+            height={size === "md" ? 300 : 150}
             src={character.image}
             alt={character.name}
           />
@@ -58,17 +62,21 @@ const CharacterCard: React.FC<CardProps> = ({ character }) => {
             <ViewedBadge page="character" id={character.id} />
           </HStack>
 
-          <Badge width="max-content" colorScheme={statusColor}>
-            {character.status}
-          </Badge>
-          <HStack>
-            <Text>Gender:</Text>
-            <Text>{character.gender}</Text>
-          </HStack>
-          <HStack>
-            <Text>Species:</Text>
-            <Text>{character.species}</Text>
-          </HStack>
+          {size === "md" && (
+            <>
+              <Badge width="max-content" colorScheme={statusColor}>
+                {character.status}
+              </Badge>
+              <HStack>
+                <Text>Gender:</Text>
+                <Text>{character.gender}</Text>
+              </HStack>
+              <HStack>
+                <Text>Species:</Text>
+                <Text>{character.species}</Text>
+              </HStack>
+            </>
+          )}
         </Stack>
       </CardBody>
       <CardFooter>

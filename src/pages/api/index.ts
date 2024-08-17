@@ -35,7 +35,7 @@ export const fetchData = async <T>(
   try {
     const response = await axiosInstance<T>(url, options);
     return response.data;
-  } catch (error) {
+  } catch {
     // console.error("Error retrieving data:", error);
     throw new Error("Could not get data");
   }

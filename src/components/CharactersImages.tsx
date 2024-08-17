@@ -1,14 +1,12 @@
 import { Episode } from "@/pages/api/episode";
-import { Location } from "@/pages/api/location";
 import { CharactersImages } from "@/utils";
 import { HStack, SkeletonCircle, Tooltip } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { FC } from "react";
 
 interface Props {
-  characters: Episode["characters"] | Location["residents"];
+  characters: Episode["characters"];
   charactersImages?: CharactersImages;
   isLoading?: boolean;
 }
@@ -17,7 +15,6 @@ const CharacterImageList: FC<Props> = ({
   charactersImages,
   isLoading,
 }) => {
-  const router = useRouter();
   const ids = characters.slice(0, 4).map((url) => {
     const parts = url.split("/");
     return parts[parts.length - 1];

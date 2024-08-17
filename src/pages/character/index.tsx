@@ -62,12 +62,15 @@ const CharactersPage = ({ initialCharacters, initialFilters }: Props) => {
     }
   };
 
-  const handleChangeFilter = (value: any, key: keyof CharacterFilter) => {
+  const handleChangeFilter = (
+    value: number | string | null,
+    key: keyof CharacterFilter
+  ) => {
     if (value === charactersFilter[key]) return;
     const newFilter = { ...charactersFilter, [key]: value };
     if (key !== "page") newFilter.page = 1;
 
-    updateCharacters(newFilter);
+    void updateCharacters(newFilter);
   };
 
   if (!characters.results || !characters.info) {

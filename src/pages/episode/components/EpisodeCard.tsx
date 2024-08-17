@@ -14,7 +14,6 @@ import {
 import { FC } from "react";
 import { CharactersImages } from "@/utils";
 import CharacterImageList from "@/components/CharactersImages";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import ViewedBadge from "@/components/ViewedBadge";

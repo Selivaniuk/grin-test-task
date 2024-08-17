@@ -3,11 +3,12 @@ import { enableStaticRendering } from "mobx-react-lite";
 export const isServer = typeof window === "undefined";
 enableStaticRendering(isServer);
 
-let clientStores: { [key: string]: any } = {};
+const clientStores: { [key: string]: object } = {};
 
 export const initStore = <T>(Store: new () => T, storeKey: string): T => {
-  const store: T = clientStores[storeKey] ?? new Store();
+  let clientStore = clientStores[storeKey] as T;
+  const store: T = clientStore ?? new Store();
   if (isServer) return store;
-  if (!clientStores[storeKey]) clientStores[storeKey] = store;
+  if (!clientStore) clientStore = store;
   return store;
 };

@@ -1,9 +1,4 @@
-import {
-  Character,
-  CharacterFilter,
-  CharacterGender,
-  CharacterStatus,
-} from "@/pages/api/character";
+import { Character, CharacterFilter } from "@/pages/api/character";
 import { Episodes } from "@/pages/api/episode";
 import { Locations } from "@/pages/api/location";
 
@@ -15,9 +10,13 @@ export const validateQueryParams = <T>(
   return v && validValues.includes(v as T) ? (v as T) : null;
 };
 
+type ValueOf<T> = T[keyof T];
+type Entries<T> = [keyof T, ValueOf<T>][];
+
 export const generateQueryParams = (filter: CharacterFilter) => {
   const params = [];
-  for (const [key, value] of Object.entries(filter)) {
+  const entries = Object.entries(filter) as Entries<CharacterFilter>;
+  for (const [key, value] of entries) {
     if (value !== undefined && value !== null && value !== "") {
       params.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
     }

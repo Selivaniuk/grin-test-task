@@ -19,7 +19,7 @@ export const getLocations = async (params?: LocationFilter) => {
 
 export const getLocation = async <T extends number | number[]>(id: T) => {
   const data = await fetchData<T extends number ? Location : Location[]>(
-    `${url}/${id}`
+    `${url}/${id.toString()}`
   );
   return data;
 };

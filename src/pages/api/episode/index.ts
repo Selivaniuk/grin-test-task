@@ -19,7 +19,7 @@ export const getEpisodes = async (params?: EpisodeFilter) => {
 
 export const getEpisode = async <T extends number | number[]>(id: T) => {
   const data = await fetchData<T extends number ? Episode : Episode[]>(
-    `${url}/${id}`
+    `${url}/${id.toString()}`
   );
   return data;
 };

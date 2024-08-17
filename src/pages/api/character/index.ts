@@ -37,7 +37,7 @@ export const getCharacters = async (params?: CharacterFilter) => {
 
 export const getCharacter = async <T extends number | number[]>(id: T) => {
   const data = await fetchData<T extends number ? Character : Character[]>(
-    `${url}/${id}`
+    `${url}/${id.toString()}`
   );
   return data;
 };

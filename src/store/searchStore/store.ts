@@ -18,7 +18,7 @@ class SearchStore {
 
     this.searchValue = "";
     this.isFocus = false;
-    this.fetchInitialItems();
+    void this.fetchInitialItems();
   }
 
   fetchInitialItems = async () => {
@@ -71,7 +71,7 @@ class SearchStore {
   close = () => {
     this.searchValue = "";
     this.isFocus = false;
-    this.fetchInitialItems();
+    void this.fetchInitialItems();
   };
 }
 

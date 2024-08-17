@@ -68,11 +68,14 @@ const EpisodesPage = ({
     }
   };
 
-  const handleChangeFilter = (value: any, key: keyof EpisodeFilter) => {
+  const handleChangeFilter = (
+    value: number | string | null,
+    key: keyof EpisodeFilter
+  ) => {
     if (value === episodesFilter[key]) return;
     const newFilter = { ...episodesFilter, [key]: value };
     if (key !== "page") newFilter.page = 1;
-    updateEpisodes(newFilter);
+    void updateEpisodes(newFilter);
   };
 
   if (!episodes.results || !episodes.info) {

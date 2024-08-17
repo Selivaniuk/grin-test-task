@@ -8,7 +8,6 @@ import {
   Badge,
   Link,
   useColorModeValue,
-  Skeleton,
 } from "@chakra-ui/react";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Image from "next/image";
@@ -17,9 +16,8 @@ import { getStatusColor } from "../components/CharacterCard";
 import NextLink from "next/link";
 import { getIdInUrl } from "@/utils";
 import Head from "next/head";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
 import { useViewedPagesStore } from "@/store/viewedPagesStore";
-import { isServer } from "@/store";
 import ViewedBadge from "@/components/ViewedBadge";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;

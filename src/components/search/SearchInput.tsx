@@ -18,7 +18,7 @@ const SearchInput: FC<Props> = ({ delay = 300 }) => {
     useSearchStore();
   useEffect(() => {
     const timer = setTimeout(() => {
-      fetchItems();
+      void fetchItems();
     }, delay);
     return () => clearTimeout(timer);
   }, [searchValue, delay, fetchItems]);

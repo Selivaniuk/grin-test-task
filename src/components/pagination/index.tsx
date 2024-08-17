@@ -5,7 +5,6 @@ import {
   ChevronRightIcon,
 } from "@chakra-ui/icons";
 import { Flex, IconButton, Tooltip, Text } from "@chakra-ui/react";
-import { useState } from "react";
 
 interface Props {
   currentPage?: number;

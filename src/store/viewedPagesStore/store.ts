@@ -1,8 +1,5 @@
-import { Character, getCharacters } from "@/pages/api/character";
-import { getLocations, Location } from "@/pages/api/location";
-import { Episode, getEpisodes } from "@/pages/api/episode";
-import { action, makeAutoObservable, runInAction } from "mobx";
-import { isServer } from "..";
+import { makeAutoObservable } from "mobx";
+import { isServer } from "../index";
 
 const LOCAL_STORAGE_KEY = "viewedPages";
 
@@ -36,7 +33,7 @@ class viewedPagesStore {
     if (isServer) return;
     const data = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (!data) return;
-    this.viewedPages = JSON.parse(data);
+    this.viewedPages = JSON.parse(data) as Record<ViewedPageKey, number[]>;
   };
 }
 

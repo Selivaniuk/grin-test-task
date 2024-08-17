@@ -71,11 +71,14 @@ const LocationsPage = ({
     }
   };
 
-  const handleChangeFilter = (value: any, key: keyof LocationFilter) => {
+  const handleChangeFilter = (
+    value: number | string | null,
+    key: keyof LocationFilter
+  ) => {
     if (value === locationFilter[key]) return;
     const newFilter = { ...locationFilter, [key]: value };
     if (key !== "page") newFilter.page = 1;
-    updateLocations(newFilter);
+    void updateLocations(newFilter);
   };
 
   if (!locations.results || !locations.info) {

@@ -8,7 +8,10 @@ import { HStack, Select } from "@chakra-ui/react";
 import { ChangeEvent, FC } from "react";
 
 interface Props {
-  handleChangeFilter: (value: any, key: keyof CharacterFilter) => void;
+  handleChangeFilter: (
+    value: string | null,
+    key: keyof CharacterFilter
+  ) => void;
   filterValue: CharacterFilter;
 }
 const CharacterFilters: FC<Props> = ({ filterValue, handleChangeFilter }) => {

@@ -128,15 +128,15 @@ export const getServerSideProps: GetServerSideProps<PropsType> = async ({
   query,
 }) => {
   const initialGender = validateQueryParams<CharacterGender>(
-    query?.gender,
+    query.gender,
     characterGenders
   );
   const initialStatus = validateQueryParams<CharacterStatus>(
-    query?.status,
+    query.status,
     characterStatuses
   );
   const initialSpecies = validateQueryParams<string>(
-    query?.species,
+    query.species,
     characterSpecies
   );
   const initialPage = isNaN(Number(query?.page)) ? 1 : Number(query?.page);

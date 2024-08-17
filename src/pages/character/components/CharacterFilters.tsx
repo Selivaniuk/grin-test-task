@@ -12,7 +12,7 @@ interface Props {
     value: string | null,
     key: keyof CharacterFilter
   ) => void;
-  filterValue: CharacterFilter;
+  filterValue?: CharacterFilter;
 }
 const CharacterFilters: FC<Props> = ({ filterValue, handleChangeFilter }) => {
   const handleInputChange = (
@@ -29,7 +29,7 @@ const CharacterFilters: FC<Props> = ({ filterValue, handleChangeFilter }) => {
   return (
     <HStack>
       <Select
-        value={filterValue.gender ?? ""}
+        value={filterValue?.gender ?? ""}
         onChange={(e) => handleInputChange(e, "gender")}
         placeholder="Gender"
       >
@@ -39,7 +39,7 @@ const CharacterFilters: FC<Props> = ({ filterValue, handleChangeFilter }) => {
       </Select>
 
       <Select
-        value={filterValue.status ?? ""}
+        value={filterValue?.status ?? ""}
         onChange={(e) => handleInputChange(e, "status")}
         placeholder="Status"
       >
@@ -49,7 +49,7 @@ const CharacterFilters: FC<Props> = ({ filterValue, handleChangeFilter }) => {
       </Select>
 
       <Select
-        value={filterValue.species ?? ""}
+        value={filterValue?.species ?? ""}
         onChange={(e) => handleInputChange(e, "species")}
         placeholder="Species"
       >

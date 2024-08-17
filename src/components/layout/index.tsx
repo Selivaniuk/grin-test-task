@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Header from "../header";
+import Header from "./Header";
 import { FC, PropsWithChildren } from "react";
 import { Box } from "@chakra-ui/react";
 

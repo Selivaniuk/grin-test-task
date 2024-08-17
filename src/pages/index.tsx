@@ -1,16 +1,16 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
+import NextLink from "next/link";
+import { FC, PropsWithChildren } from "react";
 import { Character, getCharacters } from "./api/character";
 import { getLocations, Location } from "./api/location";
 import { Episode, getEpisodes } from "./api/episode";
 import { randomInt, shuffle } from "@/utils";
 import { Link, Stack } from "@chakra-ui/react";
-import CharacterCard from "./character/components/CharacterCard";
-import LocationCard from "./location/components/LocationCard";
-import EpisodeCard from "./episode/components/EpisodeCard";
+import CharacterCard from "@/components/character/CharacterCard";
+import LocationCard from "@/components/location/LocationCard";
+import EpisodeCard from "@/components/episode/EpisodeCard";
 import CardsCarousel from "@/components/CardsCarousel";
-import NextLink from "next/link";
-import { FC, PropsWithChildren } from "react";
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 

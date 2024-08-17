@@ -9,16 +9,16 @@ import {
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { Flex, Grid, useToast } from "@chakra-ui/react";
 import { useState } from "react";
-import Pagination from "@/components/pagination";
-import CharacterFilters from "./components/CharacterFilters";
-import CharacterCard from "./components/CharacterCard";
+import Pagination from "@/components/Pagination";
+import CharacterFilters from "@/components/character/CharacterFilters";
+import CharacterCard from "@/components/character/CharacterCard";
+import CharacterCardSkeleton from "@/components/character/CharacterCardSkeleton";
 import { generateQueryParams, validateQueryParams } from "@/utils";
 import {
   characterGenders,
   characterSpecies,
   characterStatuses,
 } from "@/utils/filterValues";
-import CharacterCardSkeleton from "./components/CharacterCardSkeleton";
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 

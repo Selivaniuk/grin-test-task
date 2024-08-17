@@ -12,7 +12,7 @@ import {
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Image from "next/image";
 import { ParsedUrlQuery } from "querystring";
-import { getStatusColor } from "../components/CharacterCard";
+import { getStatusColor } from "@/components/character/CharacterCard";
 import NextLink from "next/link";
 import { getIdInUrl } from "@/utils";
 import Head from "next/head";

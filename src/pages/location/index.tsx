@@ -1,7 +1,13 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
-import { getLocations, LocationFilter, Locations } from "../api/location";
 import { useState } from "react";
+import { getLocations, LocationFilter, Locations } from "../api/location";
+import { getCharacter } from "../api/character";
+import { Flex, Grid, useToast } from "@chakra-ui/react";
+import Pagination from "@/components/Pagination";
+import LocationCard from "@/components/location/LocationCard";
+import LocationFilters from "@/components/location/LocationFilters";
+import LocationCardSkeleton from "@/components/location/LocationCardSkeleton";
 import {
   CharactersImages,
   charactersImagesFromCharacters,
@@ -9,12 +15,6 @@ import {
   getCharactersIdsInLocations,
   validateQueryParams,
 } from "@/utils";
-import { Flex, Grid, useToast } from "@chakra-ui/react";
-import Pagination from "@/components/pagination";
-import LocationCard from "./components/LocationCard";
-import { getCharacter } from "../api/character";
-import LocationFilters from "./components/LocationFilters";
-import LocationCardSkeleton from "./components/LocationCardSkeleton";
 import { locationDimensions, locationTypes } from "@/utils/filterValues";
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;

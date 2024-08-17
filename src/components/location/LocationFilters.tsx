@@ -5,7 +5,7 @@ import { ChangeEvent, FC } from "react";
 
 interface Props {
   handleChangeFilter: (value: string | null, key: keyof LocationFilter) => void;
-  filterValue?: LocationFilter;
+  filterValue: LocationFilter;
 }
 const LocationFilters: FC<Props> = ({ filterValue, handleChangeFilter }) => {
   const handleInputChange = (
@@ -22,7 +22,7 @@ const LocationFilters: FC<Props> = ({ filterValue, handleChangeFilter }) => {
   return (
     <HStack>
       <Select
-        value={filterValue?.type ?? ""}
+        value={filterValue.type ?? ""}
         onChange={(e) => handleInputChange(e, "type")}
         placeholder="Type"
       >
@@ -31,7 +31,7 @@ const LocationFilters: FC<Props> = ({ filterValue, handleChangeFilter }) => {
         ))}
       </Select>
       <Select
-        value={filterValue?.dimension ?? ""}
+        value={filterValue.dimension ?? ""}
         onChange={(e) => handleInputChange(e, "dimension")}
         placeholder="Dimension"
       >

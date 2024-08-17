@@ -18,7 +18,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface CardProps {
-  location?: Location;
+  location: Location;
   charactersImages?: CharactersImages;
   size?: "md" | "sm";
 }
@@ -28,14 +28,14 @@ const LocationCard: React.FC<CardProps> = ({
   charactersImages,
   size = "md",
 }) => {
-  const bgColor = useColorModeValue("gray.100", "gray.900");
-  if (!location) {
-    return null;
-  }
   return (
     <Card size={size} minWidth={"fit-content"}>
       <CardBody>
-        <Flex w={"100%"} h={size === "md" ? 200 : 150} bgColor={bgColor}>
+        <Flex
+          w={"100%"}
+          h={size === "md" ? 200 : 150}
+          bgColor={useColorModeValue("gray.100", "gray.900")}
+        >
           <Image
             style={{
               objectFit: "contain",

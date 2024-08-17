@@ -1,18 +1,18 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
-import { EpisodeFilter, Episodes, getEpisodes } from "../api/episode";
-import { Flex, Grid, useToast } from "@chakra-ui/react";
-import Pagination from "@/components/pagination";
 import { useState } from "react";
+import { EpisodeFilter, Episodes, getEpisodes } from "../api/episode";
+import { getCharacter } from "../api/character";
+import { Flex, Grid, useToast } from "@chakra-ui/react";
+import Pagination from "@/components/Pagination";
+import EpisodeCard from "@/components/episode/EpisodeCard";
+import EpisodeCardSkeleton from "@/components/episode/EpisodeCardSkeleton";
 import {
   CharactersImages,
   charactersImagesFromCharacters,
   generateQueryParams,
   getCharactersIdsInEpisodes,
 } from "@/utils";
-import EpisodeCard from "./components/EpisodeCard";
-import { getCharacter } from "../api/character";
-import EpisodeCardSkeleton from "./components/EpisodeCardSkeleton";
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 

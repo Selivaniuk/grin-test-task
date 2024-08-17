@@ -38,7 +38,7 @@ const LocationCardSkeleton: React.FC<CardProps> = ({ isLoading }) => {
         </Stack>
       </CardBody>
       <CardFooter>
-        <Skeleton isLoaded={isLoading}>
+        <Skeleton isLoaded={!isLoading}>
           <Button variant="solid">Details</Button>
         </Skeleton>
       </CardFooter>

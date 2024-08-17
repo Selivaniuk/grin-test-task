@@ -96,8 +96,7 @@ const EpisodesPage = ({
       >
         <Grid
           width="100%"
-          paddingX={8}
-          templateColumns="repeat(auto-fill, minmax(360px, 1fr));"
+          templateColumns="repeat(auto-fill, minmax(340px, 1fr));"
           gap={6}
         >
           {isLoading

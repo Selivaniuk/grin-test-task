@@ -17,7 +17,7 @@ const ViewedBadge: FC<Props> = ({ page, id }) => {
   }, [page, id, isViewedPage]);
 
   if (!isViewed) return null;
-  return <Badge>Viewed</Badge>;
+  return <Badge w={"max-content"}>Viewed</Badge>;
 };
 
 export default ViewedBadge;

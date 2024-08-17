@@ -33,44 +33,50 @@ export const getStatusColor = (status: CharacterStatus) => {
 };
 const CharacterCard: React.FC<CardProps> = ({ character, size = "md" }) => {
   const statusColor = getStatusColor(character.status);
+  const isMD = size === "md";
   return (
     <Card
       size={size}
-      minWidth={"fit-content"}
+      minW={isMD ? 340 : 240}
+      maxW={isMD ? 340 : 240}
       bgColor={useColorModeValue("gray.50", "gray.700")}
     >
       <CardBody>
         <Flex
-          w={"100%"}
-          h={size === "md" ? 300 : 150}
+          w={isMD ? 300 : 216}
+          h={isMD ? 300 : 200}
           position="relative"
           bgColor={useColorModeValue("gray.100", "gray.900")}
         >
           <Image
-            // layout="fill"
-            // objectFit="fill"
-            style={{
-              objectFit: "contain",
-              width: "100%",
-            }}
-            width={size === "md" ? 300 : 150}
-            height={size === "md" ? 300 : 150}
+            fill
+            priority
+            style={{ objectFit: "contain" }}
             src={character.image}
             alt={character.name}
+            sizes={isMD ? "50vw" : "10vw"}
           />
         </Flex>
 
         <Stack mt={4}>
+          <Heading
+            size={size}
+            whiteSpace="nowrap"
+            overflow="hidden"
+            textOverflow="ellipsis"
+            maxW={isMD ? 300 : 216}
+          >
+            {character.name}
+          </Heading>
           <HStack>
-            <Heading size="md">{character.name}</Heading>
+            <Badge width="max-content" colorScheme={statusColor}>
+              {character.status}
+            </Badge>
             <ViewedBadge page="character" id={character.id} />
           </HStack>
 
-          {size === "md" && (
+          {isMD && (
             <>
-              <Badge width="max-content" colorScheme={statusColor}>
-                {character.status}
-              </Badge>
               <HStack>
                 <Text>Gender:</Text>
                 <Text>{character.gender}</Text>

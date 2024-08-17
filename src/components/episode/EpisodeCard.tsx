@@ -24,36 +24,43 @@ interface Props {
   size?: "md" | "sm";
 }
 const EpisodeCard: FC<Props> = ({ episode, charactersImages, size = "md" }) => {
+  const isMD = size === "md";
   return (
     <Card
       size={size}
-      minWidth={"fit-content"}
+      minW={isMD ? 340 : 300}
+      maxW={isMD ? 340 : 300}
+      h={isMD ? "auto" : 350}
       bgColor={useColorModeValue("gray.50", "gray.700")}
     >
       <CardBody>
         <Flex
-          w={"100%"}
-          h={size === "md" ? 200 : 150}
+          position="relative"
+          w={isMD ? 300 : 276}
+          h={200}
           bgColor={useColorModeValue("gray.100", "gray.900")}
         >
           <Image
-            style={{
-              objectFit: "contain",
-              width: "100%",
-              height: "auto",
-            }}
-            width={size === "md" ? 360 : 270}
-            height={size === "md" ? 200 : 150}
+            style={{ objectFit: "contain" }}
+            fill
+            priority
             src="/images/noImg.jpg"
             alt={episode.name}
+            sizes={isMD ? "50vw" : "10vw"}
           />
         </Flex>
         <Stack mt={4}>
-          <HStack>
-            <Heading size="md">{episode.name}</Heading>
-            <ViewedBadge page="episode" id={episode.id} />
-          </HStack>
-          {size === "md" && (
+          <Heading
+            size={size}
+            whiteSpace="nowrap"
+            overflow="hidden"
+            textOverflow="ellipsis"
+            maxW={isMD ? 300 : 276}
+          >
+            {episode.name}
+          </Heading>
+          <ViewedBadge page="episode" id={episode.id} />
+          {isMD && (
             <>
               <Text>{episode.episode}</Text>
               <CharacterImageList

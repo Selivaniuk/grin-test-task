@@ -96,8 +96,7 @@ const CharactersPage = ({ initialCharacters, initialFilters }: Props) => {
 
         <Grid
           width="100%"
-          paddingX={8}
-          templateColumns="repeat(auto-fill, minmax(300px, 1fr));"
+          templateColumns="repeat(auto-fill, minmax(340px, 1fr));"
           gap={6}
         >
           {isLoading

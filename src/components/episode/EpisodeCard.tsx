@@ -25,7 +25,11 @@ interface Props {
 }
 const EpisodeCard: FC<Props> = ({ episode, charactersImages, size = "md" }) => {
   return (
-    <Card size={size} minWidth={"fit-content"}>
+    <Card
+      size={size}
+      minWidth={"fit-content"}
+      bgColor={useColorModeValue("gray.50", "gray.700")}
+    >
       <CardBody>
         <Flex
           w={"100%"}

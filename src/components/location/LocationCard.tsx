@@ -29,7 +29,11 @@ const LocationCard: React.FC<CardProps> = ({
   size = "md",
 }) => {
   return (
-    <Card size={size} minWidth={"fit-content"}>
+    <Card
+      size={size}
+      minWidth={"fit-content"}
+      bgColor={useColorModeValue("gray.50", "gray.700")}
+    >
       <CardBody>
         <Flex
           w={"100%"}

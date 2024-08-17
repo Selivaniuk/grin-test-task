@@ -9,6 +9,7 @@ import {
   Skeleton,
   Stack,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 interface CardProps {
@@ -17,7 +18,7 @@ interface CardProps {
 
 const LocationCardSkeleton: React.FC<CardProps> = ({ isLoading }) => {
   return (
-    <Card size="sm">
+    <Card size="md" bgColor={useColorModeValue("gray.50", "gray.700")}>
       <CardBody>
         <Skeleton>
           <Box h={200} />

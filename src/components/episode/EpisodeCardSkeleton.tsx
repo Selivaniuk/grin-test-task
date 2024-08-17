@@ -8,6 +8,7 @@ import {
   Skeleton,
   Stack,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { FC } from "react";
 import CharacterImageList from "@/components/CharactersImages";
@@ -17,7 +18,7 @@ interface Props {
 }
 const EpisodeCardSkeleton: FC<Props> = ({ isLoading }) => {
   return (
-    <Card size="sm">
+    <Card size="md" bgColor={useColorModeValue("gray.50", "gray.700")}>
       <CardBody>
         <Stack>
           <Skeleton isLoaded={!isLoading}>

@@ -34,7 +34,11 @@ export const getStatusColor = (status: CharacterStatus) => {
 const CharacterCard: React.FC<CardProps> = ({ character, size = "md" }) => {
   const statusColor = getStatusColor(character.status);
   return (
-    <Card size={size} minWidth={"fit-content"}>
+    <Card
+      size={size}
+      minWidth={"fit-content"}
+      bgColor={useColorModeValue("gray.50", "gray.700")}
+    >
       <CardBody>
         <Flex
           w={"100%"}

@@ -8,6 +8,7 @@ import {
   Badge,
   Link,
   useColorModeValue,
+  Skeleton,
 } from "@chakra-ui/react";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Image from "next/image";
@@ -16,11 +17,22 @@ import { getStatusColor } from "../components/CharacterCard";
 import NextLink from "next/link";
 import { getIdInUrl } from "@/utils";
 import Head from "next/head";
+import { useEffect, useMemo, useState } from "react";
+import { useViewedPagesStore } from "@/store/viewedPagesStore";
+import { isServer } from "@/store";
+import ViewedBadge from "@/components/ViewedBadge";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const CharacterPage = ({ character }: Props) => {
+  const { addPage } = useViewedPagesStore();
   const bgColor = useColorModeValue("gray.100", "gray.900");
+
+  useEffect(() => {
+    if (!character) return;
+    addPage("character", character.id);
+  }, [addPage, character]);
+
   if (!character) return null;
   return (
     <>
@@ -42,7 +54,11 @@ const CharacterPage = ({ character }: Props) => {
           />
         </Flex>
         <VStack align="baseline">
-          <Heading size="xl">{character.name}</Heading>
+          <HStack>
+            <Heading size="xl">{character.name}</Heading>
+            <ViewedBadge page="character" id={character.id} />
+          </HStack>
+
           <Badge colorScheme={getStatusColor(character.status)}>
             {character.status}
           </Badge>

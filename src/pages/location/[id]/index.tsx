@@ -1,10 +1,11 @@
+import ViewedBadge from "@/components/ViewedBadge";
 import { Character, getCharacter } from "@/pages/api/character";
 import { Location, getLocation, getLocations } from "@/pages/api/location";
+import { useViewedPagesStore } from "@/store/viewedPagesStore";
 import { getIdInUrl } from "@/utils";
 import {
   Heading,
   HStack,
-  VStack,
   Text,
   Grid,
   Tooltip,
@@ -17,11 +18,19 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { ParsedUrlQuery } from "querystring";
+import { useEffect } from "react";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const LocationPage = ({ location, charactersInLocation }: Props) => {
+  const { addPage } = useViewedPagesStore();
   const bgColor = useColorModeValue("gray.100", "gray.900");
+
+  useEffect(() => {
+    if (!location) return;
+    addPage("location", location.id);
+  }, [addPage, location]);
+
   if (!location) return null;
 
   return (
@@ -45,7 +54,10 @@ const LocationPage = ({ location, charactersInLocation }: Props) => {
             />
           </Flex>
           <Stack alignItems="baseline">
-            <Heading size="xl">{location.name}</Heading>
+            <HStack>
+              <Heading size="xl">{location.name}</Heading>
+              <ViewedBadge page="location" id={location.id} />
+            </HStack>
             <HStack alignItems="baseline">
               <Text fontSize="xl">Dimension:</Text>
               <Text fontSize="xl" fontWeight={700}>
@@ -72,10 +84,7 @@ const LocationPage = ({ location, charactersInLocation }: Props) => {
             >
               {charactersInLocation.map((character) => (
                 <Tooltip key={character.id} label={character.name}>
-                  <Link
-                    href={`/character/${character.id}`}
-                    style={{ cursor: "pointer" }}
-                  >
+                  <Link href={`/character/${character.id}`}>
                     <Image
                       style={{ borderRadius: "50%" }}
                       width={80}

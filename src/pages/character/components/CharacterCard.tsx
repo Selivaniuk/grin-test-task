@@ -1,3 +1,4 @@
+import ViewedBadge from "@/components/ViewedBadge";
 import { Character, CharacterStatus } from "@/pages/api/character";
 import {
   Badge,
@@ -52,7 +53,11 @@ const CharacterCard: React.FC<CardProps> = ({ character }) => {
         </Flex>
 
         <Stack mt={4}>
-          <Heading size="md">{character.name}</Heading>
+          <HStack>
+            <Heading size="md">{character.name}</Heading>
+            <ViewedBadge page="character" id={character.id} />
+          </HStack>
+
           <Badge width="max-content" colorScheme={statusColor}>
             {character.status}
           </Badge>

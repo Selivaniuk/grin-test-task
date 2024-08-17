@@ -1,5 +1,7 @@
+import ViewedBadge from "@/components/ViewedBadge";
 import { Character, getCharacter } from "@/pages/api/character";
 import { Episode, getEpisode, getEpisodes } from "@/pages/api/episode";
+import { useViewedPagesStore } from "@/store/viewedPagesStore";
 import { getIdInUrl } from "@/utils";
 import {
   Flex,
@@ -14,14 +16,21 @@ import {
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useRouter } from "next/router";
+import Link from "next/link";
 import { ParsedUrlQuery } from "querystring";
+import { useEffect } from "react";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const EpisodePage = ({ episode, charactersInEpisode }: Props) => {
-  const router = useRouter();
+  const { addPage } = useViewedPagesStore();
   const bgColor = useColorModeValue("gray.100", "gray.900");
+
+  useEffect(() => {
+    if (!episode) return;
+    addPage("episode", episode.id);
+  }, [addPage, episode]);
+
   if (!episode) return null;
 
   return (
@@ -46,7 +55,10 @@ const EpisodePage = ({ episode, charactersInEpisode }: Props) => {
           </Flex>
 
           <Stack alignItems="baseline">
-            <Heading size="xl">{episode.name}</Heading>
+            <HStack>
+              <Heading size="xl">{episode.name}</Heading>
+              <ViewedBadge page="episode" id={episode.id} />
+            </HStack>
             <Text fontSize="xl">{episode.episode}</Text>
             <HStack alignItems="baseline">
               <Text fontSize="xl">Air Date:</Text>
@@ -68,16 +80,15 @@ const EpisodePage = ({ episode, charactersInEpisode }: Props) => {
             >
               {charactersInEpisode.map((character) => (
                 <Tooltip key={character.id} label={character.name}>
-                  <Image
-                    style={{ borderRadius: "50%", cursor: "pointer" }}
-                    onClick={() => {
-                      router.push(`/character/${character.id}`);
-                    }}
-                    width={80}
-                    height={80}
-                    src={character.image}
-                    alt={character.name}
-                  />
+                  <Link href={`/character/${character.id}`}>
+                    <Image
+                      style={{ borderRadius: "50%" }}
+                      width={80}
+                      height={80}
+                      src={character.image}
+                      alt={character.name}
+                    />
+                  </Link>
                 </Tooltip>
               ))}
             </Grid>

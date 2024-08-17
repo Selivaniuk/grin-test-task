@@ -1,7 +1,8 @@
 import { createContext, FC, PropsWithChildren, useContext } from "react";
-import { initSearchStore } from "./index";
+import { initStore } from "../index";
+import SearchStore from "./store";
 
-const store = initSearchStore();
+const store = initStore(SearchStore, "search");
 
 export const SearchContext = createContext(store);
 

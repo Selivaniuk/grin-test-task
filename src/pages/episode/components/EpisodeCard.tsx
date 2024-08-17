@@ -17,6 +17,7 @@ import CharacterImageList from "@/components/CharactersImages";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
+import ViewedBadge from "@/components/ViewedBadge";
 
 interface Props {
   episode: Episode;
@@ -43,7 +44,11 @@ const EpisodeCard: FC<Props> = ({ episode, charactersImages }) => {
           />
         </Flex>
         <Stack mt={4}>
-          <Heading size="md">{episode.name}</Heading>
+          <HStack>
+            <Heading size="md">{episode.name}</Heading>
+            <ViewedBadge page="episode" id={episode.id} />
+          </HStack>
+
           <Text>{episode.episode}</Text>
           <CharacterImageList
             characters={episode.characters}

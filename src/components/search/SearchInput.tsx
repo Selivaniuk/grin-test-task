@@ -1,4 +1,4 @@
-import { useSearchStore } from "@/store/searchStore/provider";
+import { useSearchStore } from "@/store/searchStore";
 import { Search2Icon } from "@chakra-ui/icons";
 import {
   Input,

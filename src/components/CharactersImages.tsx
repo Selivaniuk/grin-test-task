@@ -3,6 +3,7 @@ import { Location } from "@/pages/api/location";
 import { CharactersImages } from "@/utils";
 import { HStack, SkeletonCircle, Tooltip } from "@chakra-ui/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { FC } from "react";
 
@@ -41,16 +42,15 @@ const CharacterImageList: FC<Props> = ({
       {ids.map((id) => {
         return (
           <Tooltip key={id} label={charactersImages[id].name}>
-            <Image
-              style={{ borderRadius: "50%", cursor: "pointer" }}
-              onClick={() => {
-                router.push(`/character/${id}`);
-              }}
-              width={80}
-              height={80}
-              src={charactersImages[id].url}
-              alt={charactersImages[id].name}
-            />
+            <Link href={`/character/${id}`}>
+              <Image
+                style={{ borderRadius: "50%" }}
+                width={80}
+                height={80}
+                src={charactersImages[id].url}
+                alt={charactersImages[id].name}
+              />
+            </Link>
           </Tooltip>
         );
       })}

@@ -1,7 +1,7 @@
 import { Character } from "@/pages/api/character";
 import { Episode } from "@/pages/api/episode";
 import { Location } from "@/pages/api/location";
-import { useSearchStore } from "@/store/searchStore/provider";
+import { useSearchStore } from "@/store/searchStore";
 import { Heading, Link, Stack, useColorModeValue } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import NextLink from "next/link";

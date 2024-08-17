@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import { FC, useEffect, useRef } from "react";
 import SearchInput from "./SearchInput";
-import { useSearchStore } from "@/store/searchStore/provider";
+import { useSearchStore } from "@/store/searchStore";
 import SearchList from "./SearchList";
 
 const SearchWrapper: FC = () => {

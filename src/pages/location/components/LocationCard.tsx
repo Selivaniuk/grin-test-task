@@ -1,4 +1,5 @@
 import CharacterImageList from "@/components/CharactersImages";
+import ViewedBadge from "@/components/ViewedBadge";
 import { Location } from "@/pages/api/location";
 import { CharactersImages } from "@/utils";
 import {
@@ -42,7 +43,10 @@ const LocationCard: React.FC<CardProps> = ({ location, charactersImages }) => {
           />
         </Flex>
         <Stack mt={4}>
-          <Heading size="md">{location.name}</Heading>
+          <HStack>
+            <Heading size="md">{location.name}</Heading>
+            <ViewedBadge page="location" id={location.id} />
+          </HStack>
           {location.dimension && (
             <HStack>
               <Text>Dimension:</Text>

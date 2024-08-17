@@ -1,3 +1,4 @@
+import { useSearchStore } from "@/store/searchStore/provider";
 import { Search2Icon } from "@chakra-ui/icons";
 import {
   Input,
@@ -5,49 +6,33 @@ import {
   InputRightElement,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { observer } from "mobx-react-lite";
+import { ChangeEvent, FC, useEffect } from "react";
 
 interface Props {
-  value?: string;
-  onChange?: (value: string) => void;
-  onAfterChange?: (value: string) => void;
-  onFocus?: () => void;
   delay?: number;
 }
 
-const SearchInput: FC<Props> = ({
-  value,
-  onChange,
-  onAfterChange,
-  delay = 300,
-  onFocus,
-}) => {
-  const [inputValue, setInputValue] = useState(value ?? "");
+const SearchInput: FC<Props> = ({ delay = 300 }) => {
+  const { searchValue, setSearchValue, fetchItems, setFocus } =
+    useSearchStore();
   useEffect(() => {
-    onChange?.(inputValue);
     const timer = setTimeout(() => {
-      onAfterChange?.(inputValue);
+      fetchItems();
     }, delay);
-
     return () => clearTimeout(timer);
-  }, [inputValue, delay, onAfterChange]);
-
-  useEffect(() => {
-    if (value !== inputValue) {
-      setInputValue(value ?? "");
-    }
-  }, [value]);
+  }, [searchValue, delay, fetchItems]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
-    setInputValue(newValue);
+    setSearchValue(newValue);
   };
 
   return (
     <InputGroup borderRadius={5} minWidth={300}>
       <Input
-        value={inputValue}
-        onFocus={onFocus}
+        value={searchValue}
+        onFocus={() => setFocus(true)}
         onChange={handleInputChange}
         type="text"
         placeholder="Characters, locations, episodes"
@@ -61,4 +46,4 @@ const SearchInput: FC<Props> = ({
   );
 };
 
-export default SearchInput;
+export default observer(SearchInput);

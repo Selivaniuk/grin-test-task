@@ -1,18 +1,20 @@
 import { Character } from "@/pages/api/character";
 import { Episode } from "@/pages/api/episode";
 import { Location } from "@/pages/api/location";
+import { useSearchStore } from "@/store/searchStore/provider";
 import { Heading, Link, Stack, useColorModeValue } from "@chakra-ui/react";
+import { observer } from "mobx-react-lite";
 import NextLink from "next/link";
 import { FC } from "react";
 
 const UlLink = ({
   href,
   label,
-  onItemClick,
+  onClose,
 }: {
   href: string;
   label: string;
-  onItemClick: () => void;
+  onClose: () => void;
 }) => (
   <Link
     as={NextLink}
@@ -20,7 +22,7 @@ const UlLink = ({
     px={2}
     py={1}
     rounded={"md"}
-    onClick={onItemClick}
+    onClick={onClose}
     _hover={{
       textDecoration: "none",
       bg: useColorModeValue("gray.300", "gray.700"),
@@ -33,12 +35,12 @@ const ResultBlock = ({
   title,
   url,
   values,
-  onItemClick,
+  onClose,
 }: {
   title: string;
   url: string;
   values: Character[] | Location[] | Episode[];
-  onItemClick: () => void;
+  onClose: () => void;
 }) => {
   return (
     <Stack>
@@ -49,7 +51,7 @@ const ResultBlock = ({
             key={value.id}
             href={`${url}/${value.id}`}
             label={value.name}
-            onItemClick={onItemClick}
+            onClose={onClose}
           />
         ))}
       </Stack>
@@ -57,19 +59,11 @@ const ResultBlock = ({
   );
 };
 
-interface Props {
-  characters?: Character[];
-  locations?: Location[];
-  episodes?: Episode[];
-  onItemClick: () => void;
-}
-
-const SearchList: FC<Props> = ({
-  characters,
-  episodes,
-  locations,
-  onItemClick,
-}) => {
+const SearchList: FC = () => {
+  const { characters, episodes, locations, close } = useSearchStore();
+  const hasCharacters = characters.length > 0;
+  const hasEpisodes = episodes.length > 0;
+  const hasLocations = locations.length > 0;
   return (
     <Stack
       position="absolute"
@@ -82,35 +76,35 @@ const SearchList: FC<Props> = ({
       p={4}
       borderRadius={4}
     >
-      {characters && characters.length > 0 && (
+      {hasCharacters && (
         <ResultBlock
           title="Characters"
           url="/character"
           values={characters}
-          onItemClick={onItemClick}
+          onClose={close}
         />
       )}
-      {locations && locations.length > 0 && (
+      {hasLocations && (
         <ResultBlock
           title="Locations"
           url="/location"
           values={locations}
-          onItemClick={onItemClick}
+          onClose={close}
         />
       )}
-      {episodes && episodes.length > 0 && (
+      {hasEpisodes && (
         <ResultBlock
           title="Episodes"
           url="/episode"
           values={episodes}
-          onItemClick={onItemClick}
+          onClose={close}
         />
       )}
-      {!characters && !locations && !episodes && (
+      {!hasCharacters && !hasLocations && !hasEpisodes && (
         <Heading size="sm">No results</Heading>
       )}
     </Stack>
   );
 };
 
-export default SearchList;
+export default observer(SearchList);
